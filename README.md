@@ -1,7 +1,5 @@
 # Intelligent vehicle system CARBuddy design
 
-![image-20221211191508518](D:\学习\出国\github_链接材料准备\carset-fpga\image-20221211191508518.png)
-
 ## Function
 
 **1. Driving record function:**
@@ -30,7 +28,89 @@ After the locomotive starts, it will automatically display the driving time. Dur
 
 After the locomotive starts, it can automatically choose whether to play music, and the played music is cached in advance with the "second fpga board". Using Bluetooth on the mobile phone, the volume played on the mp3 and the track of the song can be adjusted. Through the communication between the "first fpga board" and the "second fpga board", the music playback data in the second fpga board can be transmitted to the first fpga board.
 
-## **2. The overall framework of the intelligent vehicle system CARBuddy**
+## **Experimental results and display**
+
+1. Overall interface status display of intelligent vehicle system:
+
+The camera shooting scene is located in the central left part of the entire vehicle system. The three signs in the figure below indicate the state of mp3, the playback volume value of mp3, and the currently selected mode (the smart mode is black, indicating that the color sensor automatically adjusts the day/night mode, and the middle is black to indicate that the manual mode is turned on, and the current background day/night mode is manually adjusted through Bluetooth).
+
+![img](./pic/wps138.png) 
+
+![img](./pic/wps139.png)![img](./pic/wps140.png)![img](./pic/wps141.png) 
+
+ 
+
+2. Intelligent vehicle system rotary encoder control volume rendering display:
+
+(The leftmost two bits of data on the 7-segment digital tube represent left and right rotation information, 10 means right-handed, 01 means left-handed, and 00 means that the current rotation has not entered the state for the time being)
+
+![img](./pic/wps142.png) 
+
+![img](./pic/wps143.png) 
+
+![img](./pic/wps144.png) 
+
+3. The color sensor subsystem adjusts the picture background renderings according to the current color
+
+(7-segment digital tube values 1-8 indicate that the current background color is the lightest - > the brightest):
+
+![img](./pic/wps145.png)![img](./pic/wps146.png)![img](./pic/wps147.png) 
+
+ 
+
+4. Bluetooth module, the mobile phone sends the corresponding 8-bit binary value by controlling the Bluetooth serial port tool, regulating volume switching, track switching, mp3 status, and day/night/smart mode
+
+​		(1) Volume switching
+
+![img](./pic/wps148.png) 
+
+![img](./pic/wps149.png)![img](./pic/wps150.png)![img](./pic/wps151.png) 
+
+​			(2)Day and night mode control:
+
+Day mode:
+
+![img](./pic/wps152.png) 
+
+Night mode:
+
+![img](./pic/wps153.jpg) 
+
+Color sensor intelligent switching mode:
+
+![img](./pic/wps154.jpg) 
+
+![img](./pic/wps155.png) 
+
+​			(3) MP3 playback state switch:
+
+![img](./pic/wps156.png)
+
+![img](./pic/wps157.png) 
+
+![img](./pic/wps158.png) 
+
+5. Custom adjustment background image color function display:
+
+According to the fpga board, the third left switch up and down indicates that the r, g, and b values of the background image are adjusted, click the P17 button to turn up the hue, and click the M17 button to turn down the hue. According to the user's preference, the hue of the background image can be adjusted accordingly.
+
+​		(1)Bright color effect (r, g, b values are all turned up)
+
+![img](./pic/wps159.png) 
+
+​		(2) The main red tone effect:
+
+![img](./pic/wps160.jpg) 
+
+​		(3) Contrast main red tone effect
+
+![img](./pic/wps161.jpg) 
+
+6. Overall display of the connection status of the dual fpga boards:
+
+![img](./pic/wps162.png) 
+
+## **The overall framework of the intelligent vehicle system CARBuddy**
 
 The whole system is divided into two top-level control systems, sub-table control two FPGA boards, through the interaction between the two boards to achieve all the functions of the intelligent vehicle system, the specific module design and analysis are as follows:
 
@@ -816,85 +896,5 @@ module sw_tb;
 endmodule
 ```
 
-## **Experimental results and display**
 
-1. Overall interface status display of intelligent vehicle system:
-
-The camera shooting scene is located in the central left part of the entire vehicle system. The three signs in the figure below indicate the state of mp3, the playback volume value of mp3, and the currently selected mode (the smart mode is black, indicating that the color sensor automatically adjusts the day/night mode, and the middle is black to indicate that the manual mode is turned on, and the current background day/night mode is manually adjusted through Bluetooth).
-
-![img](./pic/wps138.png) 
-
-![img](./pic/wps139.png)![img](./pic/wps140.png)![img](./pic/wps141.png) 
-
- 
-
-2. Intelligent vehicle system rotary encoder control volume rendering display:
-
-(The leftmost two bits of data on the 7-segment digital tube represent left and right rotation information, 10 means right-handed, 01 means left-handed, and 00 means that the current rotation has not entered the state for the time being)
-
-![img](./pic/wps142.png) 
-
-![img](./pic/wps143.png) 
-
-![img](./pic/wps144.png) 
-
-3. The color sensor subsystem adjusts the picture background renderings according to the current color
-
-(7-segment digital tube values 1-8 indicate that the current background color is the lightest - > the brightest):
-
-![img](./pic/wps145.png)![img](./pic/wps146.png)![img](./pic/wps147.png) 
-
- 
-
-4. Bluetooth module, the mobile phone sends the corresponding 8-bit binary value by controlling the Bluetooth serial port tool, regulating volume switching, track switching, mp3 status, and day/night/smart mode
-
-​		(1) Volume switching
-
-![img](./pic/wps148.png) 
-
-![img](./pic/wps149.png)![img](./pic/wps150.png)![img](./pic/wps151.png) 
-
-​			(2)Day and night mode control:
-
-Day mode:
-
-![img](./pic/wps152.png) 
-
-Night mode:
-
-![img](./pic/wps153.jpg) 
-
-Color sensor intelligent switching mode:
-
-![img](./pic/wps154.jpg) 
-
-![img](./pic/wps155.png) 
-
-​			(3) MP3 playback state switch:
-
-![img](./pic/wps156.png)
-
-![img](./pic/wps157.png) 
-
-![img](./pic/wps158.png) 
-
-5. Custom adjustment background image color function display:
-
-According to the fpga board, the third left switch up and down indicates that the r, g, and b values of the background image are adjusted, click the P17 button to turn up the hue, and click the M17 button to turn down the hue. According to the user's preference, the hue of the background image can be adjusted accordingly.
-
-​		(1)Bright color effect (r, g, b values are all turned up)
-
-![img](./pic/wps159.png) 
-
-​		(2) The main red tone effect:
-
-![img](./pic/wps160.jpg) 
-
-​		(3) Contrast main red tone effect
-
-![img](./pic/wps161.jpg) 
-
-6. Overall display of the connection status of the dual fpga boards:
-
-![img](./pic/wps162.png) 
 
